@@ -4,6 +4,7 @@ import stylesheet
 import tools as wtools
 from Ui_main import Ui_main
 from PyQt5.QtCore import  QProcess, QObject, pyqtSignal
+import webbrowser
 
 class CodeExecutor(QObject):
     codeFinished = pyqtSignal()
@@ -39,6 +40,7 @@ class gui_class(QMainWindow):
             self.ui_main.runButton.clicked.connect(self.execute_code)
             self.ui_main.clearButton.clicked.connect(self.clear_console)
             self.ui_main.openButton.clicked.connect(self.load_file)
+            self.ui_main.helpButton.clicked.connect(self.open_github)
             
             self.ui_main.codeSpace.setPlaceholderText("Pon tu código aquí")
         def stylesheetmod():
@@ -62,6 +64,11 @@ class gui_class(QMainWindow):
     def exit_(self):
         if wtools.confirmar_mensaje("Perderá todo lo no guardado."):
             exit()
+            
+    def open_github(self):
+        url = "https://github.com/mdwcoder/NoCodePython"
+        webbrowser.open(url)
+
     
     def translate(self):
         InputCompleto = self.ui_main.codeSpace.toPlainText().split("\n")
@@ -189,17 +196,16 @@ class gui_class(QMainWindow):
         else:
             wtools.show_error_message("No se ha seleccionado una ruta de archivo.")
         wtools.show_information_message("Archivo guardado correctamente")
-
-                
-    def load_file(self):
-        def seleccionar_ruta_cargar_archivo():
-            app = QApplication([])
+    
+    def seleccionar_ruta_cargar_archivo(self):
             options = QFileDialog.Options()
             options |= QFileDialog.DontUseNativeDialog  # Para evitar el uso de diálogos nativos en macOS
             ruta, _ = QFileDialog.getOpenFileName(None, "Cargar archivo", "", "MDW files (*.mdw);;Todos los archivos (*)", options=options)
             return ruta
+                
+    def load_file(self):
         try:
-            with open(seleccionar_ruta_cargar_archivo(), "r", encoding="utf-8") as archivo:
+            with open(self.seleccionar_ruta_cargar_archivo(), "r", encoding="utf-8") as archivo:
                 newCode = archivo.read().replace("No se encontró un patrón coincidente.", "")
             self.ui_main.codeSpace.clear()
             self.ui_main.codeSpace.setPlainText(newCode)
