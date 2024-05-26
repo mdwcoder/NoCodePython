@@ -76,13 +76,7 @@ Para concatenar texto usamos `concatenar`.
 
 Ejemplo:
 ```
-concatenar contenido1 con contenido2
-```
-(Imprimiría `contenido1contenido2`).
-
-Para guardar el resultado, añade dónde lo quieres guardar, de la misma manera que las operaciones:
-```
-concatenar contenido1 con contenido2 en resultado
+concatenar "contenido"1 con "contenido2" en resultado
 ```
 (Guardará el resultado en la variable `resultado`).
 
