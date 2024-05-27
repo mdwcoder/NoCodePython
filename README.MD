@@ -113,7 +113,10 @@ repite 10 veces suma 1 con contador en contador
 imprime contador
 ```
 
+Es obvio que a este código le hace falta optimización, pero esta es la versión 0.1.1v, así que es posible que haya errores, así como fallos de optimización.
+
 Otro tipo es mientras pasa algo, haz algo.
+
 ```
 guarda 0 en contador
 mientras contador es menor que 10, haz imprime Es menor, suma 1 con contador en contador

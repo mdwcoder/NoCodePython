@@ -54,7 +54,9 @@ def Patrones():
 
     # Otras instrucciones
     r"guarda (.+?) en (\S+)": "\\2 = \\1",
+    r"guarda conjunto (.+?) en (\S+)": "\\2 = [\\1]",
     r"suma (.+?) con (.+?) en (\S+)": "\\3 = \\1 + \\2",
+    r"sumale (.+?) a (\S+)": "\\2 + = \\1",
     r"resta (.+?) con (.+?) en (\S+)": "\\3 = \\1 - \\2",
     r"multiplica (.+?) con (.+?) en (\S+)": "\\3 = \\1 * \\2",
     r"divide (.+?) con (.+?) en (\S+)": "\\3 = \\1 / \\2",
@@ -73,4 +75,5 @@ def Operadores():
     r" es menor que ": " < ",
     r" es mayor o igual que ": " >= ",
     r" es menor o igual que ": " <= ",
+    r"elemento numero (.+?) de la lista (.+)" : "\\2[\\1]"
 }
