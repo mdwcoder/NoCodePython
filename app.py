@@ -41,8 +41,10 @@ class gui_class(QMainWindow):
             self.ui_main.clearButton.clicked.connect(self.clear_console)
             self.ui_main.openButton.clicked.connect(self.load_file)
             self.ui_main.helpButton.clicked.connect(self.open_github)
+            self.ui_main.languajeComboBox.currentIndexChanged.connect(self.languajeChange)
             
-            self.ui_main.codeSpace.setPlaceholderText("Pon tu código aquí")
+            self.ui_main.codeSpace.setPlaceholderText("Pon tu código aquí...")
+            self.index = self.ui_main.languajeComboBox.currentIndex()
         def stylesheetmod():
             self.ui_main.exitButton.setStyleSheet(stylesheet.exitButton())
             self.ui_main.titleLabel.setStyleSheet(stylesheet.titleLabel())
@@ -62,14 +64,35 @@ class gui_class(QMainWindow):
         loadSomeThings()
     
     def exit_(self):
-        if wtools.confirmar_mensaje("Perderá todo lo no guardado."):
+        if wtools.confirmar_mensaje(
+            ("Perderá todo lo no guardado.",
+             "You will lose everything not saved.",
+             "Vous perdrez tout ce qui n'est pas sauvegardé."
+             )[self.index],
+            self.index):
             exit()
             
     def open_github(self):
         url = "https://github.com/mdwcoder/NoCodePython"
         webbrowser.open(url)
 
-    
+    def languajeChange(self, index):
+        self.index = index
+        widgets = (
+            self.ui_main.saveButton,
+            self.ui_main.runButton,
+            self.ui_main.helpButton,
+            self.ui_main.clearButton,
+            self.ui_main.openButton,
+            self.ui_main.exitButton
+        )
+        placeholder = ("Pon tu código aquí...", "Put your code here...", "Mettez votre code ici")
+        words_languajes = wtools.words()
+        
+        self.ui_main.codeSpace.setPlaceholderText(placeholder[index])
+        for widget in widgets:
+            widget.setText(words_languajes[widgets.index(widget)][index])
+            
     def translate(self):
         InputCompleto = self.ui_main.codeSpace.toPlainText().split("\n")
         OutputCompleto = []
@@ -145,23 +168,37 @@ class gui_class(QMainWindow):
         
     def changeOsave(self, mode):
         if mode != "s" and mode !=  "c":
-            wtools.show_error_message("El modo changeOsave no esta claro.")
+            wtools.show_error_message((
+                "El modo changeOsave no esta claro.",
+                "The changeOsave mode is not clear.",
+                "Le mode changeOsave n'est pas clair."
+                )[self.index],
+                self.index)
             return "error"
         if self.ui_main.save_mdw_select.isChecked() and self.ui_main.save_py_select.isChecked():
-            wtools.show_error_message("No deberrias poder seleccionar ambos, intentalo de nuevo.")
+            wtools.show_error_message((
+                "No deberrias poder seleccionar ambos, intentalo de nuevo.",
+                "You should not be able to select both, try again.",
+                "Vous ne devriez pas pouvoir sélectionner les deux, réessayez"
+                )[self.index],
+                self.index)
         elif self.ui_main.save_mdw_select.isChecked():
             return "mdw"
         elif self.ui_main.save_py_select.isChecked():
-            if wtools.confirmar_mensaje(
-                "No podras cambiar a modo NoCode despues, se recomienda guardar antes como .mdw."
-                ):
+            if wtools.confirmar_mensaje((
+                "No podras cambiar a modo NoCode despues, se recomienda guardar antes como .mdw.",
+                "You will not be able to change to NoCode mode afterwards, it is recommended to save as .mdw first",
+                "Vous ne pourrez plus passer en mode NoCode par la suite, il est recommandé de sauvegarder d'abord au format .mdw"
+                )[self.index],
+                self.index):
                 return "py"  
         else:
-            if  mode == "s":
-                accion = "guardar el archivo"
-            else:
-                accion = "cambiar el modo"
-            wtools.show_error_message(f"Para poder {accion} tiene que seleccionar .mdw o .py.")      
+            wtools.show_error_message((
+                "Para poder guardar el archivo tiene que seleccionar .mdw o .py.",
+                "To be able to save the file, you must select .mdw or .py.",
+                "Pour enregistrer le fichier, vous devez sélectionner .mdw ou .py."
+                )[self.index],
+                self.index)      
             return "error" 
     
     def clear_console(self):
@@ -192,10 +229,25 @@ class gui_class(QMainWindow):
                 with open(ruta_, "w", encoding="utf-8") as archivo:
                     archivo.write(code)
             except Exception as e:
-                wtools.show_error_message(f"Error al guardar el archivo: {e}")
+                wtools.show_error_message(
+                    ("Error al guardar el archivo",
+                     "Error saving file",
+                     "Erreur lors de l'enregistrement du fichier"
+                     )[self.index]+f": {e}",
+                    self.index)
         else:
-            wtools.show_error_message("No se ha seleccionado una ruta de archivo.")
-        wtools.show_information_message("Archivo guardado correctamente")
+            wtools.show_error_message(
+                ("No se ha seleccionado una ruta de archivo.",
+                "A file path has not been selected.",
+                "Aucun chemin de fichier n'a été sélectionné."
+                )[self.index]
+                , self.index)
+        wtools.show_information_message((
+            "Archivo guardado correctamente",
+            "File saved successfully",
+            "Fichier enregistré avec succès"
+            )[self.index],
+            self.index)
     
     def seleccionar_ruta_cargar_archivo(self):
             options = QFileDialog.Options()
@@ -210,14 +262,23 @@ class gui_class(QMainWindow):
             self.ui_main.codeSpace.clear()
             self.ui_main.codeSpace.setPlainText(newCode)
         except:
-            wtools.show_error_message("No se ha seleccionado un archivo.")
+            wtools.show_error_message((
+                "No se ha seleccionado un archivo.",
+                "No file has been selected.",
+                "Aucun fichier sélectionné."
+                )[self.index],
+                self.index)
 
     def execute_code(self):
         code = self.translate().replace("No se encontró un patrón coincidente.", "")
         
         self.ui_main.textBrowser.clear()
         
-        self.ui_main.textBrowser.append(f"Ejecutando código:")
+        self.ui_main.textBrowser.append((
+            "Ejecutando código :",
+            "Running code :",
+            "Code en cours d'exécution :"
+            )[self.index])
         self.ui_main.textBrowser.append(code)
 
         self.code_executor = CodeExecutor(code)
@@ -226,7 +287,11 @@ class gui_class(QMainWindow):
         self.code_executor.execute_code()
     
     def on_code_finished(self):
-        self.ui_main.textBrowser.append("Ejecución terminada.")
+        self.ui_main.textBrowser.append((
+            "Ejecución terminada.",
+            "Execution finished.",
+            "Exécution terminée."
+            )[self.index])
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
