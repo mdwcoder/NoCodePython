@@ -68,7 +68,7 @@ class gui_class(QMainWindow):
             self.ui_main.sendButton.setStyleSheet(stylesheet.sendButton())
 
         self.ui_main.setupUi(self)
-        self.ui_main.setWindowIcon(wimg.icon())
+        self.setWindowIcon(wimg.icon())
         conect_widgets()
         stylesheetmod()
 
