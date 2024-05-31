@@ -53,9 +53,13 @@ def words() -> tuple:
             exit_
     )
 
-
-def Patrones():
+def EndCodeLib() -> dict:
     return {
+        "tk.Tk()":"\nventana.mainloop()"
+    }
+
+def Patrones() -> dict:
+    Python_Base = {
         # Español - Condicionales
         r"si (.+?), entonces (.+?)": "if \\1:\n   \\2",
         r"si (.+?), entonces (.+?), sino (.+)": "if \\1:\n   \\2\nelse:\n   \\3",
@@ -137,10 +141,64 @@ def Patrones():
         r"imprime variable (.+)": "print(\\1)",
         r"imprime (.+)": 'print("\\1")',
     }
+    Tkinter = {
+        # Español
+            # Creación de ventana
+        r"inicia la ventana": """
+        import tkinter as tk
+
+        root = tk.Tk()
+        """,
+            # Configuración de ventana
+        r"resolucion de (.+)x(.+)": 'root.geometry("\\1x\\2")',
+            # Creación de widgets
+        r"crea un boton llamado (\S+) con (.+) dentro": '\\1 = tk.Button(root, text="\\2")',
+        r"crea una etiqueta llamada (\S+) con (.+) dentro": '\\1 = tk.Label(root, text="\\2")',
+        r"crea una entrada de texto llamada (\S+)": '\\1 = tk.Entry(root)',
+            # Posicionamiento de Widgets
+        r"coloca el widget llamado (\S+) la columna (\S+) de la fila (\S+)": '\\1.grid(column=\\2, row=\\3)',
+        r"coloca el widget llamado (\S+) hay": '\\1.pack()',
+
+        # English
+            # Window creation
+        r"initialize the window": """
+        import tkinter as tk
+
+        root = tk.Tk()
+        """,
+            # Window configuration
+        r"resolution of (.+)x(.+)": 'root.geometry("\\1x\\2")',
+            # Widget creation
+        r"create a button called (\S+) with (.+) inside": '\\1 = tk.Button(root, text="\\2")',
+        r"create a label called (\S+) with (.+) inside": '\\1 = tk.Label(root, text="\\2")',
+        r"create a text entry called (\S+)": '\\1 = tk.Entry(root)',
+            # Widget positioning
+        r"place the widget called (\S+) at column (\S+) row (\S+)": '\\1.grid(column=\\2, row=\\3)',
+        r"place the widget called (\S+) here": '\\1.pack()',
+
+        # Français
+            # Création de fenêtre
+        r"initialiser la fenêtre": """
+        import tkinter as tk
+
+        root = tk.Tk()
+        """,
+            # Configuration de fenêtre
+        r"résolution de (.+)x(.+)": 'root.geometry("\\1x\\2")',
+            # Création de widgets
+        r"crée un bouton appelé (\S+) avec (.+) à l'intérieur": '\\1 = tk.Button(root, text="\\2")',
+        r"crée une étiquette appelée (\S+) avec (.+) à l'intérieur": '\\1 = tk.Label(root, text="\\2")',
+        r"crée une entrée de texte appelée (\S+)": '\\1 = tk.Entry(root)',
+            # Positionnement de Widgets
+        r"place le widget appelé (\S+) à la colonne (\S+) rangée (\S+)": '\\1.grid(column=\\2, row=\\3)',
+        r"place le widget appelé (\S+) ici": '\\1.pack()'
+    }
+
+    return Python_Base | Tkinter
 
 
-def Operadores():
-    return {
+def Operadores() -> dict:
+    Operadores_Generales = {
         # Español
         r" es igual a ": " == ",
         r" es diferente de ": " != ",
@@ -148,7 +206,6 @@ def Operadores():
         r" es menor que ": " < ",
         r" es mayor o igual que ": " >= ",
         r" es menor o igual que ": " <= ",
-        r"elemento numero (.+?) de la lista (.+)": "\\2[\\1]",
 
         # Inglés
         r" is equal to ": " == ",
@@ -157,7 +214,6 @@ def Operadores():
         r" is less than ": " < ",
         r" is greater or equal to ": " >= ",
         r" is less or equal to ": " <= ",
-        r"element number (.+?) in the list (.+)": "\\2[\\1]",
 
         # Francés
         r" est égal à ": " == ",
@@ -166,5 +222,16 @@ def Operadores():
         r" est inférieur à ": " < ",
         r" est supérieur ou égal à ": " >= ",
         r" est inférieur ou égal à ": " <= ",
+    }
+
+    Listas = {
+        # Español
+        r"elemento numero (.+?) de la lista (.+)": "\\2[\\1]",
+
+        # Inglés
+        r"element number (.+?) in the list (.+)": "\\2[\\1]",
+
+        # Francés
         r"élément numéro (.+?) dans la liste (.+)": "\\2[\\1]",
     }
+    return Operadores_Generales | Listas

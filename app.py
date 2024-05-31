@@ -153,6 +153,11 @@ class gui_class(QMainWindow):
             widget.setText(words_languajes[widgets.index(widget)][index])
 
     def translate(self):
+        def add_text_if_present(text, conditions):
+            for a, b in conditions.items():
+                if a in text:
+                    text += f"\n{b}"
+            return text
         InputCompleto = self.ui_main.codeSpace.toPlainText().split("\n")
         OutputCompleto = []
         for entrada in InputCompleto:
@@ -193,7 +198,7 @@ class gui_class(QMainWindow):
                 OutputCompleto.append("No se encontró un patrón coincidente.")
 
         # Unir todas las traducciones en un solo string con saltos de línea
-        traduccion_final = "\n".join(OutputCompleto)
+        traduccion_final = add_text_if_present("\n".join(OutputCompleto), wtools.EndCodeLib())
         return traduccion_final
 
     def translate_line(self, entrada):
