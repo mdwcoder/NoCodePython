@@ -6,7 +6,7 @@
 
     Inglés:
     "There is a README in English, French, and Spanish. Click on your flag to be redirected."
-[🇬🇧](https://github.com/mdwcoder/NoCodePython/blob/main/Doc/README_EN.MD)
+[EN](https://github.com/mdwcoder/NoCodePython/blob/main/Doc/README_EN.MD)
 
     Francés:
     "Il y a un README en anglais, français et espagnol. Cliquez sur votre drapeau pour être redirigé."
