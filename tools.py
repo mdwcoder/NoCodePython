@@ -73,6 +73,10 @@ def Patrones() -> dict:
         r"pide entrada y guarda en (\S+)": "\\1 = input()",
         r"pide entrada con mensaje \"(.+?)\" y guarda en (\S+)": "\\2 = input('\\1')",
 
+        # Español - Funciones
+        r"definir función (\S+)\((.*?)\): (.+)": "def \\1(\\2):\n   \\3",
+        r"definir función (\S+)\((.*?)\)": "def \\1(\\2):\n   pass",
+
         # Español - Otras instrucciones
         r"guarda (.+?) en (\S+)": "\\2 = \\1",
         r"guarda conjunto (.+?) en (\S+)": "\\2 = [\\1]",
@@ -99,6 +103,10 @@ def Patrones() -> dict:
         # Inglés - Entradas del usuario
         r"ask for input and save in (\S+)": "\\1 = input()",
         r"ask for input with message \"(.+?)\" and save in (\S+)": "\\2 = input('\\1')",
+
+        # Inglés - Funciones
+        r"define function (\S+)\((.*?)\): (.+)": "def \\1(\\2):\n   \\3",
+        r"define function (\S+)\((.*?)\)": "def \\1(\\2):\n   pass",
 
         # Inglés - Otras instrucciones
         r"save (.+?) in (\S+)": "\\2 = \\1",
@@ -127,6 +135,10 @@ def Patrones() -> dict:
         r"demande une entrée et sauvegarde dans (\S+)": "\\1 = input()",
         r"demande une entrée avec le message \"(.+?)\" et sauvegarde dans (\S+)": "\\2 = input('\\1')",
 
+        # Francés - Funciones
+        r"définir fonction (\S+)\((.*?)\): (.+)": "def \\1(\\2):\n   \\3",
+        r"définir fonction (\S+)\((.*?)\)": "def \\1(\\2):\n   pass",
+
         # Francés - Otras instrucciones
         r"sauvegarde (.+?) dans (\S+)": "\\2 = \\1",
         r"sauvegarde ensemble (.+?) dans (\S+)": "\\2 = [\\1]",
@@ -152,7 +164,7 @@ def Patrones() -> dict:
             # Configuración de ventana
         r"resolucion de (.+)x(.+)": 'root.geometry("\\1x\\2")',
             # Creación de widgets
-        r"crea un boton llamado (\S+) con (.+) dentro": '\\1 = tk.Button(root, text="\\2")',
+        r"crea un boton llamado (\S+) con (.+) dentro conectado a la funcion (\S+)": '\\1 = tk.Button(root, text="\\2")',
         r"crea una etiqueta llamada (\S+) con (.+) dentro": '\\1 = tk.Label(root, text="\\2")',
         r"crea una entrada de texto llamada (\S+)": '\\1 = tk.Entry(root)',
             # Posicionamiento de Widgets
@@ -169,7 +181,7 @@ def Patrones() -> dict:
             # Window configuration
         r"resolution of (.+)x(.+)": 'root.geometry("\\1x\\2")',
             # Widget creation
-        r"create a button called (\S+) with (.+) inside": '\\1 = tk.Button(root, text="\\2")',
+        r"create a button named (\S+) with (.+) inside connected to the function (\S+)": '\\1 = tk.Button(root, text="\\2", command=\\3)',
         r"create a label called (\S+) with (.+) inside": '\\1 = tk.Label(root, text="\\2")',
         r"create a text entry called (\S+)": '\\1 = tk.Entry(root)',
             # Widget positioning
@@ -186,7 +198,7 @@ def Patrones() -> dict:
             # Configuration de fenêtre
         r"résolution de (.+)x(.+)": 'root.geometry("\\1x\\2")',
             # Création de widgets
-        r"crée un bouton appelé (\S+) avec (.+) à l'intérieur": '\\1 = tk.Button(root, text="\\2")',
+        r"crée un bouton nommé (\S+) avec (.+) à l'intérieur connecté à la fonction (\S+)": '\\1 = tk.Button(root, text="\\2", command=\\3)',
         r"crée une étiquette appelée (\S+) avec (.+) à l'intérieur": '\\1 = tk.Label(root, text="\\2")',
         r"crée une entrée de texte appelée (\S+)": '\\1 = tk.Entry(root)',
             # Positionnement de Widgets

@@ -1,10 +1,13 @@
+# UI Library's
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
-import os, sys, re
+from PyQt5.QtCore import  QProcess, QObject, pyqtSignal
+# System Library's
+import os, sys, re, webbrowser
+# Local imports
 import stylesheet
 import tools as wtools
+import images as wimg
 from Ui_main import Ui_main
-from PyQt5.QtCore import  QProcess, QObject, pyqtSignal
-import webbrowser
 
 class CodeExecutor(QObject):
     codeFinished = pyqtSignal()
@@ -65,6 +68,7 @@ class gui_class(QMainWindow):
             self.ui_main.sendButton.setStyleSheet(stylesheet.sendButton())
 
         self.ui_main.setupUi(self)
+        self.ui_main.setWindowIcon(wimg.icon())
         conect_widgets()
         stylesheetmod()
 
