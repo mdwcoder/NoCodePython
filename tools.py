@@ -1,6 +1,6 @@
 from PyQt5.QtGui import QTextCursor, QTextCharFormat, QFont
 from PyQt5.QtWidgets import  QMessageBox
-            
+
 def show_error_message(descripcion_del_error, index):
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Critical)
@@ -8,7 +8,7 @@ def show_error_message(descripcion_del_error, index):
         msg.setText("¡Ha ocurrido un error!" if index == 0 else "An error has occurred!" if index == 1 else "Une erreur s'est produite!")
         msg.setInformativeText(descripcion_del_error)
         msg.exec_()
-    
+
 def show_warning_message(descripcion_de_advertencia, index):
     msg = QMessageBox()
     msg.setIcon(QMessageBox.Warning)
@@ -16,7 +16,7 @@ def show_warning_message(descripcion_de_advertencia, index):
     msg.setText("¡Advertencia!" if index == 0 else "Warning!" if index == 1 else "Avertissement!")
     msg.setInformativeText(descripcion_de_advertencia)
     msg.exec_()
-    
+
 def show_information_message(descripcion_de_informacion, index):
     msg = QMessageBox()
     msg.setIcon(QMessageBox.Information)
@@ -24,7 +24,7 @@ def show_information_message(descripcion_de_informacion, index):
     msg.setText("¡Información!" if index == 0 else "Information!" if index == 1 else "Information!")
     msg.setInformativeText(descripcion_de_informacion)
     msg.exec_()
-    
+
 def confirmar_mensaje(descripcion, index):
     msg = QMessageBox()
     msg.setIcon(QMessageBox.Question)
@@ -52,18 +52,22 @@ def words() -> tuple:
             open_,
             exit_
     )
-        
-    
+
+
 def Patrones():
     return {
         # Español - Condicionales
-        r"si (.+?), entonces (.+?)": "if \\1:\n    \\2",
-        r"si (.+?), entonces (.+?), sino (.+)": "if \\1:\n    \\2\nelse:\n    \\3",
+        r"si (.+?), entonces (.+?)": "if \\1:\n   \\2",
+        r"si (.+?), entonces (.+?), sino (.+)": "if \\1:\n   \\2\nelse:\n   \\3",
 
         # Español - Bucles
-        r"repite (.+?) veces (.+)": "for _ in range(\\1):\n    \\2",
-        r"mientras (.+?), haz (.+)": "while \\1:\n    \\2",
-        r"para cada (.+) en (.+), haz (.+)": "for \\1 in \\2:\n    \\3",
+        r"repite (.+?) veces (.+)": "for _ in range(\\1):\n   \\2",
+        r"mientras (.+?), haz (.+)": "while \\1:\n   \\2",
+        r"para cada (.+) en (.+), haz (.+)": "for \\1 in \\2:\n   \\3",
+
+        # Español - Entradas del usuario
+        r"pide entrada y guarda en (\S+)": "\\1 = input()",
+        r"pide entrada con mensaje \"(.+?)\" y guarda en (\S+)": "\\2 = input('\\1')",
 
         # Español - Otras instrucciones
         r"guarda (.+?) en (\S+)": "\\2 = \\1",
@@ -80,13 +84,17 @@ def Patrones():
         r"imprime (.+)": 'print("\\1")',
 
         # Inglés - Condicionales
-        r"if (.+?), then (.+?)": "if \\1:\n    \\2",
-        r"if (.+?), then (.+?), else (.+)": "if \\1:\n    \\2\nelse:\n    \\3",
+        r"if (.+?), then (.+?)": "if \\1:\n   \\2",
+        r"if (.+?), then (.+?), else (.+)": "if \\1:\n   \\2\nelse:\n   \\3",
 
         # Inglés - Bucles
-        r"repeat (.+?) times (.+)": "for _ in range(\\1):\n    \\2",
-        r"while (.+?), do (.+)": "while \\1:\n    \\2",
-        r"for each (.+) in (.+), do (.+)": "for \\1 in \\2:\n    \\3",
+        r"repeat (.+?) times (.+)": "for _ in range(\\1):\n   \\2",
+        r"while (.+?), do (.+)": "while \\1:\n   \\2",
+        r"for each (.+) in (.+), do (.+)": "for \\1 in \\2:\n   \\3",
+
+        # Inglés - Entradas del usuario
+        r"ask for input and save in (\S+)": "\\1 = input()",
+        r"ask for input with message \"(.+?)\" and save in (\S+)": "\\2 = input('\\1')",
 
         # Inglés - Otras instrucciones
         r"save (.+?) in (\S+)": "\\2 = \\1",
@@ -103,13 +111,17 @@ def Patrones():
         r"print (.+)": 'print("\\1")',
 
         # Francés - Condicionales
-        r"si (.+?), alors (.+?)": "if \\1:\n    \\2",
-        r"si (.+?), alors (.+?), sinon (.+)": "if \\1:\n    \\2\nelse:\n    \\3",
+        r"si (.+?), alors (.+?)": "if \\1:\n   \\2",
+        r"si (.+?), alors (.+?), sinon (.+)": "if \\1:\n   \\2\nelse:\n   \\3",
 
         # Francés - Bucles
-        r"répète (.+?) fois (.+)": "for _ in range(\\1):\n    \\2",
-        r"tant que (.+?), fais (.+)": "while \\1:\n    \\2",
-        r"pour chaque (.+) dans (.+), fais (.+)": "for \\1 in \\2:\n    \\3",
+        r"répète (.+?) fois (.+)": "for _ in range(\\1):\n   \\2",
+        r"tant que (.+?), fais (.+)": "while \\1:\n   \\2",
+        r"pour chaque (.+) dans (.+), fais (.+)": "for \\1 in \\2:\n   \\3",
+
+        # Francés - Entradas del usuario
+        r"demande une entrée et sauvegarde dans (\S+)": "\\1 = input()",
+        r"demande une entrée avec le message \"(.+?)\" et sauvegarde dans (\S+)": "\\2 = input('\\1')",
 
         # Francés - Otras instrucciones
         r"sauvegarde (.+?) dans (\S+)": "\\2 = \\1",
@@ -125,6 +137,7 @@ def Patrones():
         r"imprime variable (.+)": "print(\\1)",
         r"imprime (.+)": 'print("\\1")',
     }
+
 
 def Operadores():
     return {
